@@ -1,0 +1,34 @@
+version: "3"
+
+services:
+
+  caddy:
+    image: caddy
+    restart: unless-stopped
+    networks:
+      - dex
+    volumes:
+      - caddy_data:/data
+      - $PWD/Caddyfile:/etc/caddy/Caddyfile
+    ports:
+      - 80:80
+      - 443:443
+
+  dex:
+    image: ghcr.io/dexidp/dex:latest-alpine
+    ports:
+      - 5554:5554
+      - 5556:5556
+    volumes:
+      - $PWD/dex-config.yaml:/etc/dex/config.docker.yaml
+      - dex_data:/data
+    networks:
+      - dex
+
+
+networks:
+  dex:
+    driver: bridge
+
+volumes:
+  caddy_data:

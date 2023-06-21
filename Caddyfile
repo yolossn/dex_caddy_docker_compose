@@ -1,0 +1,7 @@
+<YOUR_DOMAIN_HERE> {
+    reverse_proxy dex:5556
+}
+
+:80 {
+    reverse_proxy dex:5556
+}
